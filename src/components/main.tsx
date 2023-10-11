@@ -1,18 +1,27 @@
-import React from 'react';
-import { getRealtimeTraffic } from '../api/realtimetraffic';
+import React, { useEffect } from 'react';
 
 export default function Main() {
-    let aaa;
-    let bodys;
-    getRealtimeTraffic().then((res) => {
-        console.log(res)
-        aaa = JSON.stringify(res.headers);
-        console.log(aaa)
-        // bodys = res.responseText;
-    }).catch((err) => {
-        console.log(err)
-    });
-    return (<>
-    <div>헬로헬로</div>
-    </>)
+    const {Tmapv2} = window;
+    function initTmap(){
+        const map = new window.Tmapv2.Map("map_div",
+        {
+            center: new Tmapv2.LatLng(37.566481622437934,126.98502302169841), // 지도 초기 좌표
+            width: "890px",
+            height: "400px",
+            zoom: 15
+        });
+    }
+    useEffect(() => {
+        // 컴포넌트가 렌더링된 후에 실행될 코드
+        const script = document.createElement('script');
+        script.async = true;
+        script.type = "text/javascript";
+
+        initTmap();
+      }, []);
+  return (
+    <>
+        <div id="map_div"></div>
+    </>
+  );
 }

@@ -1,12 +1,24 @@
 import axios from "axios";
 
-export const getRealtimeTraffic = async () => {
+export const getStartTMap = async () => {
 	const response = await axios({
-		url: 'http://openapi.seoul.go.kr:8088/434f72646a646f763637525a6d6a6f/xml/TrafficInfo/1/5/1220003800',
-		method: 'get'
+		method: 'GET',
+		headers: {accept: 'application/json', appKey: 'XSHWByTAmm7m2IQx9HkcY5fUknrvSzRb9zF8nQgp'},
+		url:'https://apis.openapi.sk.com/tmap/staticMap?version=1&coordType=WGS84GEO&width=512&height=512&zoom=15&format=PNG&longitude=126.83529138565&latitude=37.5446283608815&markers=126.978155%2C37.566371'
 	})
 	return response
 }
+
+// const options = {
+// 	method: 'GET',
+// 	headers: {accept: 'application/json', appKey: 'XSHWByTAmm7m2IQx9HkcY5fUknrvSzRb9zF8nQgp'}
+//   };
+
+//   fetch('https://apis.openapi.sk.com/tmap/staticMap?version=1&coordType=WGS84GEO&width=512&height=512&zoom=15&format=PNG&longitude=126.83529138565&latitude=37.5446283608815&markers=126.978155%2C37.566371', options)
+// 	.then(response => response.json())
+// 	.then(response => console.log(response))
+// 	.catch(err => console.error(err));
+
 
 // var xhr = new XMLHttpRequest();
 // 	var url = 'http://openapi.seoul.go.kr:8088/sample/xml/CardSubwayStatsNew/1/5/20220301'; /* URL */
