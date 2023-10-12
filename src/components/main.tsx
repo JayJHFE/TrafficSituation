@@ -59,7 +59,7 @@ export default function Main() {
 
                         //기존 그려진 라인 & 마커가 있다면 초기화
                         if (resultdrawArr.length > 0) {
-                            for ( var i in resultdrawArr) {
+                            for ( let i in resultdrawArr) {
                                 resultdrawArr[i]
                                         .setMap(null);
                             }
@@ -68,31 +68,31 @@ export default function Main() {
                         drawInfoArr = [];
 
                         for ( let i in resultData) { //for문 [S]
-                            var geometry = resultData[i].geometry;
-                            var properties = resultData[i].properties;
-                            var polyline_;
+                            let geometry = resultData[i].geometry;
+                            let properties = resultData[i].properties;
+                            let polyline_;
 
 
                             if (geometry.type == "LineString") {
-                                for ( var j in geometry.coordinates) {
+                                for ( let j in geometry.coordinates) {
                                     // 경로들의 결과값(구간)들을 포인트 객체로 변환
-                                    var latlng = new Tmapv3.Point(
+                                    let latlng = new Tmapv3.Point(
                                             geometry.coordinates[j][0],
                                             geometry.coordinates[j][1]);
                                     // 포인트 객체를 받아 좌표값으로 변환
-                                    var convertPoint = new Tmapv3.Projection.convertEPSG3857ToWGS84GEO(
+                                    let convertPoint = new Tmapv3.Projection.convertEPSG3857ToWGS84GEO(
                                             latlng);
                                     // 포인트객체의 정보로 좌표값 변환 객체로 저장
-                                    var convertChange = new Tmapv3.LatLng(
+                                    let convertChange = new Tmapv3.LatLng(
                                             convertPoint._lat,
                                             convertPoint._lng);
                                     // 배열에 담기
                                     drawInfoArr.push(convertChange);
                                 }
                             } else {
-                                var markerImg = "";
-                                var pType = "";
-                                var size;
+                                let markerImg = "";
+                                let pType = "";
+                                let size;
 
                                 if (properties.pointType == "S") { //출발지 마커
                                     markerImg = "/upload/tmap/marker/pin_r_m_s.png";
@@ -109,15 +109,15 @@ export default function Main() {
                                 }
 
                                 // 경로들의 결과값들을 포인트 객체로 변환
-                                var latlon = new Tmapv3.Point(
+                                let latlon = new Tmapv3.Point(
                                         geometry.coordinates[0],
                                         geometry.coordinates[1]);
 
                                 // 포인트 객체를 받아 좌표값으로 다시 변환
-                                var convertPoint = new Tmapv3.Projection.convertEPSG3857ToWGS84GEO(
+                                let convertPoint = new Tmapv3.Projection.convertEPSG3857ToWGS84GEO(
                                         latlon);
 
-                                var routeInfoObj = {
+                                let routeInfoObj = {
                                     markerImage : markerImg,
                                     lng : convertPoint._lng,
                                     lat : convertPoint._lat,
