@@ -8,11 +8,12 @@ declare global {
 }
 export default function Main() {
     const {Tmapv3} = window;
-    let marker_s, marker_e, marker_p1, marker_p2;
+    let marker_s, marker_e, marker_p, marker_p1, marker_p2;
     let totalMarkerArr = [];
     let drawInfoArr = [];
     let resultdrawArr = [];
     let tDistance, tTime;
+
     function initTmap(){
         const mapDiv = document.getElementById('map_div');
         if (!mapDiv.firstChild) {
@@ -88,6 +89,7 @@ export default function Main() {
                                             convertPoint._lng);
                                     // 배열에 담기
                                     drawInfoArr.push(convertChange);
+                                    console.log(drawInfoArr, "배열값 중간확인")
                                 }
                             } else {
                                 let markerImg = "";
@@ -136,6 +138,22 @@ export default function Main() {
                                         });
                             }
                         }//for문 [E]
+                        function addComma(num) {
+                            var regexp = /\B(?=(\d{3})+(?!\d))/g;
+                            return num.toString().replace(regexp, ',');
+                        }
+
+                        function drawLine(arrPoint) {
+                            var polyline_;
+
+                            polyline_ = new Tmapv3.Polyline({
+                                path : arrPoint,
+                                strokeColor : "#DD0000",
+                                strokeWeight : 6,
+                                map : map
+                            });
+                            resultdrawArr.push(polyline_);
+                        }
                         drawLine(drawInfoArr);
                 });
         }
