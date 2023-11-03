@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getWalkTMap } from '../api/realtimetraffic';
 
 declare global {
@@ -8,6 +8,8 @@ declare global {
 }
 export default function Main() {
     const {Tmapv3} = window;
+    const [distance, setDisatance] = useState("");
+    const [time, setTime] = useState("");
     let marker_s, marker_e, marker_p, marker_p1, marker_p2;
     let totalMarkerArr = [];
     let drawInfoArr = [];
@@ -30,8 +32,8 @@ export default function Main() {
         marker_s = new Tmapv3.Marker(
             {
                 position : new Tmapv3.LatLng(37.564991,126.983937),
-                icon : "/upload/tmap/marker/pin_r_m_s.png",
-                iconSize : new Tmapv3.Size(24, 38),
+                icon : "/start-marker.png",
+                iconSize : new Tmapv3.Size(30, 30),
                 map : map
             });
 
@@ -39,8 +41,8 @@ export default function Main() {
         marker_e = new Tmapv3.Marker(
                 {
                     position : new Tmapv3.LatLng(37.566158,126.988940),
-                    icon : "/upload/tmap/marker/pin_r_m_e.png",
-                    iconSize : new Tmapv3.Size(24, 38),
+                    icon : "/end-marker.png",
+                    iconSize : new Tmapv3.Size(30, 30),
                     map : map
                 });
         getWalkTMap().then(res => {
@@ -54,8 +56,8 @@ export default function Main() {
                         tTime = " 총 시간 : "
                                 + ((resultData[0].properties.totalTime) / 60)
                                         .toFixed(0) + "분";
-                                        console.log(tDistance)
-                                        console.log(tTime)
+                        setDisatance(tDistance);
+                        setTime(tTime);
 
 
                         //기존 그려진 라인 & 마커가 있다면 초기화
@@ -89,26 +91,28 @@ export default function Main() {
                                             convertPoint._lng);
                                     // 배열에 담기
                                     drawInfoArr.push(convertChange);
-                                    console.log(drawInfoArr, "배열값 중간확인")
+                                    // console.log(drawInfoArr, "배열값 중간확인")
                                 }
                             } else {
                                 let markerImg = "";
                                 let pType = "";
                                 let size;
 
-                                if (properties.pointType == "S") { //출발지 마커
-                                    markerImg = "/upload/tmap/marker/pin_r_m_s.png";
-                                    pType = "S";
-                                    size = new Tmapv3.Size(24, 38);
-                                } else if (properties.pointType == "E") { //도착지 마커
-                                    markerImg = "/upload/tmap/marker/pin_r_m_e.png";
-                                    pType = "E";
-                                    size = new Tmapv3.Size(24, 38);
-                                } else { //각 포인트 마커
+                                // if (properties.pointType == "S") { //출발지 마커
+                                //     markerImg = "/upload/tmap/marker/pin_r_m_s.png";
+                                //     pType = "S";
+                                //     size = new Tmapv3.Size(24, 38);
+                                // } else if (properties.pointType == "E") { //도착지 마커
+                                //     markerImg = "/upload/tmap/marker/pin_r_m_e.png";
+                                //     pType = "E";
+                                //     size = new Tmapv3.Size(24, 38);
+                                // } else { //각 포인트 마커
+                                if(properties.pointType !== "S" && properties.pointType !== "E"){
                                     markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
                                     pType = "P";
                                     size = new Tmapv3.Size(8, 8);
                                 }
+                                // }
 
                                 // 경로들의 결과값들을 포인트 객체로 변환
                                 let latlon = new Tmapv3.Point(
@@ -144,7 +148,7 @@ export default function Main() {
                         }
 
                         function drawLine(arrPoint) {
-                            var polyline_;
+                            let polyline_;
 
                             polyline_ = new Tmapv3.Polyline({
                                 path : arrPoint,
@@ -164,14 +168,13 @@ export default function Main() {
         const script = document.createElement('script');
         script.async = true;
         script.type = "text/javascript";
-
         initTmap();
       });
   return (
     <>
         <div id="map_div"></div>
-        <div style={{width:"200px", height:"200px", backgroundColor:"red", color:"yellow"}}>{tDistance}</div>
-        <div>{tTime}</div>
+        <div>{distance}</div>
+        <div>{time}</div>
         <p>오찌기도찌기</p>
     </>
   );
